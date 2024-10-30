@@ -10,6 +10,7 @@ import org.springframework.web.servlet.View;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookController {
 
     @Autowired
@@ -21,23 +22,27 @@ public class BookController {
     private View error;
 
     @GetMapping("/books")
+    @CrossOrigin
     public List<Book> getAllBooks() {
         return repo.findAll();
     }
 
     // get the book by title index
     @GetMapping("/books/{text}")
+    @CrossOrigin
     public List <Book> getBookByTitle(@PathVariable String text){
         return searchRepo.findByTitle(text);
     }
 
     @PostMapping("/book")
+    @CrossOrigin
     public Book addBook(@RequestBody Book book) {
         return repo.save(book);
     }
 
     // modify the book
     @PutMapping("/book/{id}")
+    @CrossOrigin
     public Book modifyBook(@PathVariable String id, @RequestBody Book book) {
         repo.findById(id);
         if(repo.findById(id).isPresent()) {
@@ -61,6 +66,7 @@ public class BookController {
 
     // delete the book
     @DeleteMapping("/book/{id}")
+    @CrossOrigin
     public Book deleteBook(@PathVariable String id) {
         if(repo.findById(id).isPresent()) {
             Book book = repo.findById(id).get();
