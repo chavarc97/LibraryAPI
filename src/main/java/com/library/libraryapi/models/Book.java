@@ -8,6 +8,7 @@ import java.util.List;
 
 @Document(collection = "books")
 public class Book {
+    private String _id;
     private String title;
     private String[] authors;
     private double average_rating;
@@ -25,6 +26,14 @@ public class Book {
     }
 
     // Getters and Setters
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
     public String getTitle() {
         return title;
     }
