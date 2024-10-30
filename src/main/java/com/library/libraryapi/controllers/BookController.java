@@ -1,9 +1,11 @@
 package com.library.libraryapi.controllers;
 
-import com.library.libraryapi.BookRepository;
+import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.models.Book;
+import com.library.libraryapi.repository.SearchRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
 
 import java.util.List;
 
@@ -13,13 +15,21 @@ public class BookController {
     @Autowired
     BookRepository repo;
 
+    @Autowired
+    SearchRespository searchRepo;
+    @Autowired
+    private View error;
+
     @GetMapping("/books")
     public List<Book> getAllBooks() {
         return repo.findAll();
     }
 
     // get the book by title index
-
+    @GetMapping("/books/{text}")
+    public List <Book> getBookByTitle(@PathVariable String text){
+        return searchRepo.findByTitle(text);
+    }
 
     @PostMapping("/book")
     public Book addBook(@RequestBody Book book) {
@@ -57,6 +67,8 @@ public class BookController {
             repo.deleteById(id);
             return book;
         } else {
+            String message = "Book not found";
+            System.out.println(message);
             return null;
         }
     }
